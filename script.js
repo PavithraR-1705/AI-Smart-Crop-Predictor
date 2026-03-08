@@ -4,7 +4,7 @@ async function predictYield() {
     const btnText = document.querySelector('.btn-text');
     const resultDiv = document.getElementById('result');
 
-    // Dashboard-la irunthu inputs-ah edukkurom
+    // Dashboard input values
     const data = {
         N: parseFloat(document.getElementById('nitrogen').value),
         P: parseFloat(document.getElementById('phosphorus').value),
@@ -13,31 +13,27 @@ async function predictYield() {
         rainfall: parseFloat(document.getElementById('rainfall').value)
     };
 
-    // Input values check pandrom
     if (Object.values(data).some(val => isNaN(val))) {
         alert("Please fill all fields with valid numbers!");
         return;
     }
 
-    // UI Loading start
     btn.disabled = true;
     loader.style.display = 'block';
     btnText.style.opacity = '0.5';
     resultDiv.style.display = 'none';
 
     try {
-        // Localhost path-ah mathi unga Render live link-ah kuduthurukaen
-		// script.js la fetch line-ah ippadi maathunga
-		const response = await fetch('https://ai-smart-crop-predictor-2.onrender.com/predict', {
-		    method: 'POST',
-		    headers: { 'Content-Type': 'application/json' },
-		    body: JSON.stringify(data)
-		});
+        // Idhu dhaan mukkiyam: Localhost-ku badhula Render link
+        const response = await fetch('https://ai-smart-crop-predictor-2.onrender.com/predict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
 
         const result = await response.json();
 
         if (response.ok) {
-            // Result-ah dashboard style-la kaatrom
             resultDiv.className = 'success-bg';
             resultDiv.innerHTML = `<i class="fas fa-chart-line"></i> Recommended Crop: ${result.prediction}`;
             resultDiv.style.display = 'block';
@@ -50,10 +46,8 @@ async function predictYield() {
         resultDiv.style.display = 'block';
         resultDiv.style.background = '#fef2f2';
         resultDiv.style.color = '#991b1b';
-        // Free tier server sleep aagi iruntha indha message varum
-        resultDiv.innerHTML = "❌ Connection Error. Wait 30s for server to wake up and try again!";
+        resultDiv.innerHTML = "❌ Server is waking up. Please wait 30 seconds and try again!";
     } finally {
-        // Loading-ah stop pandrom
         btn.disabled = false;
         loader.style.display = 'none';
         btnText.style.opacity = '1';
