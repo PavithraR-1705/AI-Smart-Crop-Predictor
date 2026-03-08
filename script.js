@@ -27,11 +27,12 @@ async function predictYield() {
 
     try {
         // Localhost path-ah mathi unga Render live link-ah kuduthurukaen
-        const response = await fetch('https://ai-smart-crop-predictor-2.onrender.com/predict', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
+		// script.js la fetch line-ah ippadi maathunga
+		const response = await fetch('https://ai-smart-crop-predictor-2.onrender.com/predict', {
+		    method: 'POST',
+		    headers: { 'Content-Type': 'application/json' },
+		    body: JSON.stringify(data)
+		});
 
         const result = await response.json();
 
