@@ -4,7 +4,7 @@ async function predictYield() {
     const btnText = document.querySelector('.btn-text');
     const resultDiv = document.getElementById('result');
 
-    // N-P-K-ph-rainfall labels dashboard-la irundhu edukkurom
+    // Dashboard inputs
     const data = {
         N: parseFloat(document.getElementById('nitrogen').value),
         P: parseFloat(document.getElementById('phosphorus').value),
@@ -13,7 +13,7 @@ async function predictYield() {
         rainfall: parseFloat(document.getElementById('rainfall').value)
     };
 
-    // Validation check
+    // Validation
     if (Object.values(data).some(val => isNaN(val))) {
         alert("Please fill all fields with valid numbers!");
         return;
@@ -26,8 +26,8 @@ async function predictYield() {
     resultDiv.style.display = 'none';
 
     try {
-        // Backend live link inga dhaan irukku
-        const response = await fetch('https://ai-smart-crop-predictor-2.onrender.com, {
+        // Syntax error-ah fix panni correct URL kuduthurukaen
+        const response = await fetch('https://ai-smart-crop-predictor-2.onrender.com/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -36,7 +36,7 @@ async function predictYield() {
         const result = await response.json();
 
         if (response.ok) {
-            // Success! Displaying the result
+            // Success logic
             resultDiv.className = 'success-bg';
             resultDiv.innerHTML = `<i class="fas fa-chart-line"></i> Recommended Crop: ${result.prediction}`;
             resultDiv.style.display = 'block';
@@ -49,8 +49,8 @@ async function predictYield() {
         resultDiv.style.display = 'block';
         resultDiv.style.background = '#fef2f2';
         resultDiv.style.color = '#991b1b';
-        // Free server sleep mode error handling
-        resultDiv.innerHTML = "❌ Server is still warming up. Please wait 10 seconds and try again!";
+        // Free tier waking up message
+        resultDiv.innerHTML = "❌ Connection Error";
     } finally {
         btn.disabled = false;
         loader.style.display = 'none';
