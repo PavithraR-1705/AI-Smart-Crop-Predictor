@@ -27,7 +27,7 @@ async function predictYield() {
 
     try {
         // Backend live link inga dhaan irukku
-        const response = await fetch('https://ai-smart-crop-predictor-2.onrender.com/predict', {
+        const response = await fetch('https://ai-smart-crop-predictor-2.onrender.com, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
